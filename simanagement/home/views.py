@@ -1,7 +1,8 @@
 from unicodedata import name
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import AddStudentForm
+from .forms import AddStudentForm, UploadJSONForm
+import json
 # Create your views here.
 
 def home(request):
@@ -58,3 +59,25 @@ def student_update(request, id):
     except Exception as e:
         print(e)
     return render(request, 'student_update.html', context)
+
+def upload_json(request):
+    context ={'form': UploadJSONForm}
+    try:
+        if request.method=='POST':
+            form = UploadJSONForm(request.POST)
+            json_file = request.FILES['file']
+
+            if form.is_valid():
+                JsonUpload.objects.create(file=json_file)
+            
+            # file = JsonUpload.objects.get(file=json_file)
+            print("okay")
+            # f = open(json_file)
+            
+            # data = json.load(f)
+            # print(data)
+
+            return redirect('/')
+    except Exception as e:
+        print(e)
+    return render(request, 'upload_json.html', context)

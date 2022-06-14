@@ -5,5 +5,7 @@
     {% csrf_token %}
     {{form}}
     <button type="submit">Add Student</button>
-  </form> 
+</form> 
+<a href="{% url 'upload_json' %}"><button style="margin-top: 20px;">Add student details from a JSON file</button></a>
+
 {% endblock %}

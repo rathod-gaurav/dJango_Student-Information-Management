@@ -9,3 +9,8 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return self.name
+
+class JsonUpload(models.Model):
+    file = models.FileField(blank=True, null=True, upload_to='json_files')
+
+
