@@ -60,6 +60,10 @@ def student_update(request, id):
         print(e)
     return render(request, 'student_update.html', context)
 
+def handle_uploaded_file(f):
+    output = {}
+
+
 def upload_json(request):
     context ={'form': UploadJSONForm}
     try:
@@ -68,14 +72,11 @@ def upload_json(request):
             json_file = request.FILES['file']
 
             if form.is_valid():
-                JsonUpload.objects.create(file=json_file)
+                file_obj = JsonUpload.objects.create(file=json_file)
+                file_path = '/media/'+ str(file_obj.file)
+                print(file_path)
             
-            # file = JsonUpload.objects.get(file=json_file)
-            print("okay")
-            # f = open(json_file)
-            
-            # data = json.load(f)
-            # print(data)
+            # print('okay again')
 
             return redirect('/')
     except Exception as e:
