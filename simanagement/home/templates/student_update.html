@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block start %}
+<form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Update Details</button>
+  </form> 
+{% endblock %}

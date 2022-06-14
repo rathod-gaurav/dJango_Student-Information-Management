@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block start %}
+
+<a href="{% url 'add_student' %}"><button style="margin-bottom: 20px;">Add New Student</button></a>
+
+<table>
+    <tr>
+        <td style="padding-right:20px">No.</td>
+        <td style="padding-right:20px">Name</td>
+        <td style="padding-right:20px">Roll No.</td>
+        <td style="padding-right:20px">Department</td>
+        <td style="padding-right:20px">Hostel</td>
+        <td style="padding-right:20px">Action</td>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <th style="padding-right:20px">{{forloop.counter}}</th>
+        <th style="padding-right:20px">{{student.name}}</th>
+        <th style="padding-right:20px">{{student.roll_no}}</th>
+        <th style="padding-right:20px">{{student.department}}</th>
+        <th style="padding-right:20px">{{student.hostel}}</th>
+        <th style="padding-right:20px">
+            <a href="{% url 'student_update' student.id %}"><button>Update</button></a>
+            <a href="{% url 'student_delete' student.id %}"><button>Delete</button></a>
+        </th>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
