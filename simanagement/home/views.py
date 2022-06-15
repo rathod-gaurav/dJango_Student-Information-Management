@@ -60,16 +60,24 @@ def student_update(request, id):
         print(e)
     return render(request, 'student_update.html', context)
 
-
+import json
 import pandas as pd
 from django.conf import settings
 def handle_uploaded_file(file_path):
     file_path = settings.MEDIA_ROOT + file_path[6:]
-    print(file_path)
-    df = pd.read_csv(file_path)
-    for NAME, ROLL_NO, DEPARTMENT, HOSTEL in zip(df.name, df.roll_no, df.department, df.hostel):
-        models = StudentProfile(name=NAME, roll_no=ROLL_NO, department=DEPARTMENT, hostel=HOSTEL)
-        models.save()
+    # print(file_path)
+    if file_path[-4:] == '.csv':
+        df = pd.read_csv(file_path)
+        for NAME, ROLL_NO, DEPARTMENT, HOSTEL in zip(df.name, df.roll_no, df.department, df.hostel):
+            models = StudentProfile(name=NAME, roll_no=ROLL_NO, department=DEPARTMENT, hostel=HOSTEL)
+            models.save()
+    elif file_path[-4:] == 'json':
+        with open(file_path) as f:
+            students_list = json.load(f)
+        for student in students_list:
+            StudentProfile.objects.create(
+                name=student["name"], roll_no = student["roll_no"], department=student["department"], hostel=student["hostel"]
+                )
 
 
 def upload_json(request):
@@ -82,7 +90,7 @@ def upload_json(request):
             if form.is_valid():
                 file_obj = JsonUpload.objects.create(file=json_file)
                 file_path = '/media/'+ str(file_obj.file)
-                print(file_path)
+                # print(file_path)
                 handle_uploaded_file(file_path)
             
             # print('okay again')
